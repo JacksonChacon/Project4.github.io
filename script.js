@@ -7,6 +7,42 @@ const theTimer = document.querySelector(".timer");
 
 // Add leading zero to numbers 9 or below (purely for aesthetics):
 
+// Session Storage API
+localStorage.setItem('bestScore', null);
+localStorage.setItem('midScore', null);
+localStorage.setItem('worstScore', null);
+var bestScore = localStorage.getItem('bestScore');
+var midScore = localStorage.getItem('midScore');
+var worstScore = localStorage.getItem('worstScore');
+document.querySelector("#first").innerHTML = bestScore;
+document.querySelector("#second").innerHTML = midScore;
+document.querySelector("#third").innerHTML = worstScore;
+   function updateFirst(){
+   if (theTimer < bestScore){
+        bestScore = theTimer;
+        localStorage.setItem('bestScore', bestScore);
+        document.querySelector("#first").innerHTML = bestScore;
+   }
+}
+    function updateSecond(){
+   if (theTimer < midScore){
+        midScore = theTimer;
+        localStorage.setItem('midScore', midScore);
+        document.querySelector("#second").innerHTML = midScore;
+   }
+}
+    function updateThird(){
+   if (theTimer < bestScore){
+        worstScore = theTimer;
+        localStorage.setItem('worstScore', worstScore);
+        document.querySelector("#third").innerHTML = worstScore;
+   }
+}
+
+// Random sentence to copy
+const sentences = ["abcdefghijklmnopqrstuvwxyz", "The quick brown fox jumps over the lazy dog", "Pack my box with five dozen liquor jugs", "Never underestimate the power of a good book", "The early bird catches the worm, but the second mouse gets the cheese"];
+var randSent = sentences[Math.floor(Math.random() * sentences.length)];
+document.querySelector("#origin-text p").innerHTML = randSent;
 
 // Run a standard minute/second/hundredths timer:
 let [hundredths, seconds, minutes] = [0,0,0];
@@ -46,6 +82,7 @@ function watchReset(){
     [hundredths, seconds, minutes] = [0,0,0];
     theTimer.innerHTML = "00:00:00";
 }
+
 // Match the text entered with the provided text on the page:
 function checker(){
     check = testArea.toString();
@@ -65,23 +102,28 @@ function burnItDown(e){
     document.querySelector("#test-area").value = "";
     testWrapper.style.borderColor = "grey";
     watchReset();
+    var randsent = sentences[Math.floor(Math.random() * sentences.length)];
+    document.querySelector("#origin-text p").innerHTML = randsent;
+    let text = randSent.split("");
+    let limit = randSent.length;
+    key = undefined;
 }
 // Event listeners for keyboard input and the reset button:
 let index = 0;
-const text = originText.split("");
-let limit = originText.length;
+const text = randSent.split("");
+let limit = randSent.length;
 
 testArea.addEventListener("keydown", textCheck);
-
+let key = undefined;
 function textCheck(e){
-    const key = e.key;
+    key = e.key;
 
-    if (key !== text[index] && key !== 'shift') {
+    if (key != text[index] && key !== 'shift') {
         //Red border
         testWrapper.style.borderColor = "red";
         //index++;
     } 
-    if (key === text[index]) {
+    if (key == text[index]) {
         //Blue border
         testWrapper.style.borderColor = "blue";
         index++;
@@ -90,6 +132,9 @@ function textCheck(e){
         watchStop();
         //testArea.blur();
         checker();
+        updateFirst();
+        updateSecond();
+        updateThird();
     }
     /*
     if (key === 'Enter'){
@@ -100,6 +145,38 @@ function textCheck(e){
         checker();
     }
     */
+
+    // Session Storage API
+localStorage.setItem('bestScore', null);
+localStorage.setItem('midScore', null);
+localStorage.setItem('worstScore', null);
+var bestScore = localStorage.getItem('bestScore');
+var midScore = localStorage.getItem('midScore');
+var worstScore = localStorage.getItem('worstScore');
+document.querySelector("#first").innerHTML = bestScore;
+document.querySelector("#second").innerHTML = midScore;
+document.querySelector("#third").innerHTML = worstScore;
+   function updateFirst(){
+   if (theTimer < bestScore){
+        bestScore = theTimer;
+        localStorage.setItem('bestScore', bestScore);
+        document.querySelector("#first").innerHTML = bestScore;
+   }
+}
+    function updateSecond(){
+   if (theTimer < midScore){
+        midScore = theTimer;
+        localStorage.setItem('midScore', midScore);
+        document.querySelector("#second").innerHTML = midScore;
+   }
+}
+    function updateThird(){
+   if (theTimer < bestScore){
+        worstScore = theTimer;
+        localStorage.setItem('worstScore', worstScore);
+        document.querySelector("#third").innerHTML = worstScore;
+   }
+}
 }
 
 //testArea.addEventListener("keydown", textCheck);
